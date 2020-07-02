@@ -26,39 +26,49 @@ namespace MainSurface
             OpenFileDialog OpenFile = new OpenFileDialog();
             OpenFile.Multiselect = true;
             OpenFile.Title = "请选择文件";
-            OpenFile.Filter = "升级文件(*.txt)|*.txt";
+            OpenFile.Filter = "升级文件(*.txt;*.hex;*.s19)|*.txt;*.hex;*.s19";
 
 
             //选择文件
-            OpenFile.ShowDialog();
+            //OpenFile.ShowDialog();
 
             //获取文件路径
-            FilePath = OpenFile.FileName;
+            //FilePath = OpenFile.FileName;
 
             //获取文件内容
             //内容较大，采用流（Stream）的方式来读取内容
-            try
+            if (OpenFile.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                textBoxFileContent.Text = System.IO.File.ReadAllText(FilePath);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("未选择文件");
-                return;
-                throw;
-            }
+                if (OpenFile.FileName.Contains("s19"))
+                    MessageBox.Show("这是一个后缀为s19的文件");
+                if (OpenFile.FileName != null)
+                {
+                    #region 采用流（Stream）的方式来读取内容
+                    try
+                    {
+                        FilePath = OpenFile.FileName;
 
-            #region 采用流（Stream）的方式来读取内容
-            StreamReader ReadFile = new StreamReader(FilePath);
+                        StreamReader ReadFile = new StreamReader(FilePath);
 
-            string line;
+                        string line;
 
-            while ((line = ReadFile.ReadLine()) != null)
-            {
-                //Environment.NewLine为换行
-                textBoxFileContent.Text += Environment.NewLine + line;
+                        while ((line = ReadFile.ReadLine()) != null)
+                        {
+                            //Environment.NewLine为换行
+                            textBoxFileContent.Text += Environment.NewLine + line;
+                        }
+
+                        ReadFile.Close();
+                        ReadFile.Dispose();
+                    }
+                    catch (Exception)
+                    {
+                        
+                        throw;
+                    }
+                    #endregion
+                }
             }
-            #endregion
         }
 
         private void BootLoader_KeyPress(object sender, KeyPressEventArgs e)

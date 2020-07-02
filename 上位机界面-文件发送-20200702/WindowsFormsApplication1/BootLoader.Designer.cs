@@ -53,8 +53,10 @@
             this.textBoxFileContent.Location = new System.Drawing.Point(15, 90);
             this.textBoxFileContent.Multiline = true;
             this.textBoxFileContent.Name = "textBoxFileContent";
+            this.textBoxFileContent.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBoxFileContent.Size = new System.Drawing.Size(711, 307);
             this.textBoxFileContent.TabIndex = 1;
+            this.textBoxFileContent.WordWrap = false;
             // 
             // labelFileContent
             // 
